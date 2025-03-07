@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { CircleUser, Menu, Moon, Package2, Search, Sun } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/supabase/client";
+import { useTheme } from "next-themes";
 
 const NAV_LINKS = [
   { href: "/admin/dashboard", label: "Dashboard" },
@@ -27,11 +28,13 @@ const NAV_LINKS = [
 
 export const Header = () => {
   const pathname = usePathname();
+  const { setTheme } = useTheme();
+  const router = useRouter();
+  const supabase = createClient();
 
   const handleLogout = async () => {
-    const supabase = createClient();
     await supabase.auth.signOut();
-    // Add logic to handle logout
+    router.replace("/");
   };
 
   return (
@@ -122,21 +125,21 @@ export const Header = () => {
                 <DropdownMenuContent align="end">
                   <DropdownMenuItem
                     onClick={() => {
-                      /* Set light theme */
+                      setTheme("light");
                     }}
                   >
                     Light
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     onClick={() => {
-                      /* Set dark theme */
+                      setTheme("dark");
                     }}
                   >
                     Dark
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     onClick={() => {
-                      /* Set system theme */
+                      setTheme("system");
                     }}
                   >
                     System
