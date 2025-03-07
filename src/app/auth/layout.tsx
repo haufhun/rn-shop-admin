@@ -1,3 +1,4 @@
+import { ADMIN } from "@/constants/constants";
 import { createClient } from "@/supabase/server";
 import { redirect } from "next/navigation";
 
@@ -20,8 +21,8 @@ export default async function AuthLayout({
       return;
     }
 
-    if (data.type === "admin") {
-      return redirect("/admin");
+    if (data.type === ADMIN) {
+      return redirect("/");
     }
   }
 
