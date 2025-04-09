@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useState } from "react";
+import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { PlusCircle } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -50,6 +50,8 @@ type Props = {
 };
 
 const CategoryPageComponent = ({ categories }: Props) => {
+  const router = useRouter();
+
   const [isCreateCategoryModalOpen, setIsCreateCategoryModalOpen] =
     useState(false);
   const [currentCategory, setCurrentCategory] =
@@ -64,18 +66,26 @@ const CategoryPageComponent = ({ categories }: Props) => {
   });
 
   const submitCategoryHandler = async (data: CreateCategorySchema) => {
-    console.log(data);
-    // try {
-    //   if (currentCategory) {
-    //     await updateCategory(currentCategory.id, data);
-    //     toast.success("Category updated successfully");
-    //   } else {
-    //     await createCategory(data);
-    //     toast.success("Category created successfully");
-    //   }
-    // } catch (error) {
-    //   toast.error(error.message);
-    // }
+    const uniqueId = uuid();
+    const fileName = `category/category-${uniqueId}`;
+    const file = new File([data.image[0]], fileName);
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    // Upload image to Supabase storage
+    const imageUrl = await imageUploadHandler(formData);
+
+    if (imageUrl) {
+      await createCategory({
+        name: data.name,
+        imageUrl,
+      });
+      form.reset();
+      router.refresh();
+      setIsCreateCategoryModalOpen(false);
+      toast.success("Category created successfully");
+    }
   };
 
   return (
@@ -116,6 +126,41 @@ const CategoryPageComponent = ({ categories }: Props) => {
           </Dialog>
         </div>
       </div>
+
+      <Card className="overflow-x-auto">
+        <CardHeader>
+          <CardTitle>Categories</CardTitle>
+        </CardHeader>
+
+        <CardContent>
+          <Table className="min-w-[600px]">
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-[100px] sm:table-cell">
+                  <span className="sr-only">Images</span>
+                </TableHead>
+                <TableHead>Name</TableHead>
+                <TableHead className="md:table-cell">Created at</TableHead>
+                <TableHead className="md:table-cell">Products</TableHead>
+                <TableHead>
+                  <span className="sr-only">Actions</span>
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+
+            <TableBody>
+              {categories.map((category) => (
+                <CategoryTableRow
+                  key={category.id}
+                  category={category}
+                  setCurrentCategory={setCurrentCategory}
+                  setIsCreateCategoryModalOpen={setIsCreateCategoryModalOpen}
+                />
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
     </main>
   );
 };
