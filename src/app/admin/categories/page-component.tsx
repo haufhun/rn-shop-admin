@@ -66,26 +66,63 @@ const CategoryPageComponent = ({ categories }: Props) => {
   });
 
   const submitCategoryHandler = async (data: CreateCategorySchema) => {
-    const uniqueId = uuid();
-    const fileName = `category/category-${uniqueId}`;
-    const file = new File([data.image[0]], fileName);
+    const { image, name, intent = "create" } = data;
 
-    const formData = new FormData();
-    formData.append("file", file);
+    const handleImageUpload = async () => {
+      const uniqueId = uuid();
+      const fileName = `category/category-${uniqueId}`;
+      const file = new File([data.image[0]], fileName);
 
-    // Upload image to Supabase storage
-    const imageUrl = await imageUploadHandler(formData);
+      const formData = new FormData();
+      formData.append("file", file);
 
-    if (imageUrl) {
-      await createCategory({
-        name: data.name,
-        imageUrl,
-      });
-      form.reset();
-      router.refresh();
-      setIsCreateCategoryModalOpen(false);
-      toast.success("Category created successfully");
+      // Upload image to Supabase storage
+      const imageUrl = await imageUploadHandler(formData);
+      return imageUrl;
+    };
+
+    switch (intent) {
+      case "create": {
+        const imageUrl = await handleImageUpload();
+        if (imageUrl) {
+          await createCategory({
+            name,
+            imageUrl,
+          });
+          form.reset();
+          router.refresh();
+          setIsCreateCategoryModalOpen(false);
+          toast.success("Category created successfully");
+        }
+        break;
+      }
+      case "update": {
+        if (image && currentCategory?.slug) {
+          const imageUrl = await handleImageUpload();
+          if (imageUrl) {
+            await updateCategory({
+              name,
+              imageUrl,
+              slug: currentCategory.slug,
+              intent: "update",
+            });
+            form.reset();
+            router.refresh();
+            setIsCreateCategoryModalOpen(false);
+            toast.success("Category updated successfully");
+          }
+        }
+      }
+      default:
+        console.log("Invliad intent");
+        break;
     }
+  };
+
+  const deleteCategoryHandler = async (id: number) => {
+    await deleteCategory(id);
+    router.refresh();
+    toast.success("Category deleted successfully");
   };
 
   return (
@@ -155,6 +192,7 @@ const CategoryPageComponent = ({ categories }: Props) => {
                   category={category}
                   setCurrentCategory={setCurrentCategory}
                   setIsCreateCategoryModalOpen={setIsCreateCategoryModalOpen}
+                  deleteCategoryHandler={deleteCategoryHandler}
                 />
               ))}
             </TableBody>
