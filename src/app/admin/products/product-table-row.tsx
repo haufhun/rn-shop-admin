@@ -69,7 +69,9 @@ export const ProductTableRow = ({
         <Button
           variant="ghost"
           size="icon"
-          onClick={() =>
+          onClick={() => {
+            console.log("setting current product");
+
             handleEditClick({
               title: product.title,
               category: product.category.id.toString(),
@@ -78,15 +80,16 @@ export const ProductTableRow = ({
               images: [],
               slug: product.slug,
               intent: "update",
-            })
-          }
+            });
+          }}
         >
           <Pencil className="h-4 w-4" />
         </Button>
         <Button
           variant="ghost"
           size="icon"
-          onClick={() =>
+          onClick={() => {
+            console.log("setting current product");
             setCurrentProduct({
               title: product.title,
               category: product.category.id.toString(),
@@ -95,13 +98,13 @@ export const ProductTableRow = ({
               images: [],
               slug: product.slug,
               intent: "update",
-            })
-          }
+            });
+
+            console.log("setting delete modal");
+            setIsDeleteModalOpen(true);
+          }}
         >
-          <Trash2
-            className="h-4 w-4"
-            onClick={() => setIsDeleteModalOpen(true)}
-          />
+          <Trash2 className="h-4 w-4" />
         </Button>
       </TableCell>
     </TableRow>
