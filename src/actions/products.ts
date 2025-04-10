@@ -4,19 +4,19 @@ import slugify from "slugify";
 
 import { createClient } from "@/supabase/server";
 import {
-  ProductsWithCategoryResponse,
+  ProductsWithCategoriesResponse,
   UpdateProductSchema,
 } from "@/app/admin/products/products.types";
 import { CreateProductSchemaServer } from "@/app/admin/products/schema";
 
 const supabase = await createClient();
 
-export const getProductsWithCategory =
-  async (): Promise<ProductsWithCategoryResponse> => {
+export const getProductsWithCategories =
+  async (): Promise<ProductsWithCategoriesResponse> => {
     const { data, error } = await supabase
       .from("product")
-      .select("*, category:categories(*)")
-      .returns<ProductsWithCategoryResponse>()
+      .select("*, category:category(*)")
+      .returns<ProductsWithCategoriesResponse>()
       .order("id", { ascending: false });
 
     if (error) {

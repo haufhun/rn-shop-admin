@@ -55,8 +55,8 @@ export const ProductForm = ({
         title: "",
         category: "",
         price: "",
-        maxQuantity: "",
-        heroImage: undefined,
+        max_quantity: "",
+        hero_image: undefined,
         images: undefined,
       });
     }
@@ -149,13 +149,13 @@ export const ProductForm = ({
               />
               <FormField
                 control={form.control}
-                name="maxQuantity"
+                name="max_quantity"
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
                     <FormLabel>Max Quantity</FormLabel>
                     <FormControl>
                       <Input
-                        id="maxQuantity"
+                        id="max_quantity"
                         type="number"
                         className="col-span-3"
                         {...field}
@@ -168,7 +168,7 @@ export const ProductForm = ({
               />
               <FormField
                 control={form.control}
-                name="heroImage"
+                name="hero_image"
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
                     <FormLabel>Hero Image</FormLabel>
@@ -176,7 +176,7 @@ export const ProductForm = ({
                       <Input
                         type="file"
                         accept="image/*"
-                        {...form.register("heroImage")}
+                        {...form.register("hero_image")}
                         onChange={(event) => {
                           field.onChange(event.target.files?.[0]);
                         }}

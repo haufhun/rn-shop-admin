@@ -3,9 +3,9 @@ import { z } from "zod";
 export const createOrUpdateProductSchema = z.object({
   title: z.string().min(1, { message: "Title is required" }),
   price: z.string().min(1, { message: "price is required" }),
-  maxQuantity: z.string().min(1, { message: "maxQuantity is required" }),
+  max_quantity: z.string().min(1, { message: "maxQuantity is required" }),
   category: z.string().min(1, { message: "Category is required" }),
-  heroImage: z
+  hero_image: z
     .any()
     .refine((file) => file.length === 1, "heroImage is required"),
   images: z
