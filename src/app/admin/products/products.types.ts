@@ -5,21 +5,21 @@ export type ProductWithCategory = {
   created_at: string;
   hero_image: string;
   id: number;
-  image_url: string[];
-  maxquantity: number;
-  price: number | null;
+  images_url: string[];
+  max_quantity: number;
+  price: number;
   slug: string;
   title: string;
 };
 
-export type ProductWithCategoryResponse = ProductWithCategory[];
+export type ProductsWithCategoryResponse = ProductWithCategory[];
 
 export type UpdateProductSchema = {
   category: number;
   heroImage: string;
   imagesUrl: string[];
   maxQuantity: number;
-  price: number | null;
+  price: number;
   slug: string;
   title: string;
 };
