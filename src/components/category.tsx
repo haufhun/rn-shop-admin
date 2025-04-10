@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import { format } from "date-fns";
 import { useState } from "react";
 import { MoreHorizontal } from "lucide-react";
