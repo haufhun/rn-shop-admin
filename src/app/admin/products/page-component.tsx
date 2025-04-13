@@ -74,8 +74,8 @@ export const ProductPageComponent: FC<Props> = ({
       title,
       category,
       price,
-      max_quantity: maxQuantity,
-      hero_image: heroImage,
+      max_quantity,
+      hero_image,
       images,
       slug,
       intent = "create",
@@ -92,8 +92,8 @@ export const ProductPageComponent: FC<Props> = ({
     let heroImageUrl: string | undefined;
     let imageUrls: string[] = [];
 
-    if (heroImage) {
-      const imagePromise = Array.from(heroImage).map((file) =>
+    if (hero_image) {
+      const imagePromise = Array.from(hero_image).map((file) =>
         uploadFile(file as File)
       );
 
@@ -124,8 +124,8 @@ export const ProductPageComponent: FC<Props> = ({
           await createProduct({
             category: Number(category),
             images: imageUrls,
-            heroImage: heroImageUrl,
-            maxQuantity: Number(maxQuantity),
+            hero_image: heroImageUrl,
+            max_quantity: Number(max_quantity),
             price: Number(price),
             title,
           });
@@ -140,9 +140,9 @@ export const ProductPageComponent: FC<Props> = ({
         if (heroImageUrl && imageUrls.length > 0 && slug) {
           await updateProduct({
             category: Number(category),
-            heroImage: heroImageUrl!,
-            imagesUrl: imageUrls,
-            maxQuantity: Number(maxQuantity),
+            hero_image: heroImageUrl!,
+            images_url: imageUrls,
+            max_quantity: Number(max_quantity),
             price: Number(price),
             title,
             slug,

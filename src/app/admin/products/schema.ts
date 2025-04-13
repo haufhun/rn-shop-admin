@@ -3,11 +3,11 @@ import { z } from "zod";
 export const createOrUpdateProductSchema = z.object({
   title: z.string().min(1, { message: "Title is required" }),
   price: z.string().min(1, { message: "price is required" }),
-  max_quantity: z.string().min(1, { message: "maxQuantity is required" }),
+  max_quantity: z.string().min(1, { message: "max_quantity is required" }),
   category: z.string().min(1, { message: "Category is required" }),
   hero_image: z
     .any()
-    .refine((file) => file.length === 1, "heroImage is required"),
+    .refine((file) => file.length === 1, "hero_image is required"),
   images: z
     .any()
     .refine(
@@ -30,9 +30,9 @@ export type CreateOrUpdateProductSchema = z.infer<
 export const createProductSchemaServer = z.object({
   title: z.string().min(1, { message: "Title is required" }),
   price: z.number().positive({ message: "price is required" }),
-  maxQuantity: z.number().positive({ message: "maxQuantity is required" }),
+  max_quantity: z.number().positive({ message: "max_quantity is required" }),
   category: z.number().positive({ message: "Category is required" }),
-  heroImage: z.string().url({ message: "Hero image is required" }),
+  hero_image: z.string().url({ message: "Hero image is required" }),
   images: z.array(z.string().url({ message: "Images are required" })),
 });
 

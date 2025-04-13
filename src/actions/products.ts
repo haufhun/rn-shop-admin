@@ -28,9 +28,9 @@ export const getProductsWithCategories =
 
 export const createProduct = async ({
   category,
-  heroImage,
+  hero_image,
   images,
-  maxQuantity,
+  max_quantity: max_quantity,
   price,
   title,
 }: CreateProductSchemaServer) => {
@@ -38,9 +38,9 @@ export const createProduct = async ({
 
   const { data, error } = await supabase.from("product").insert({
     category,
-    hero_image: heroImage,
+    hero_image: hero_image,
     images_url: images,
-    max_quantity: maxQuantity,
+    max_quantity,
     price,
     slug,
     title,
@@ -55,9 +55,9 @@ export const createProduct = async ({
 
 export const updateProduct = async ({
   category,
-  heroImage,
-  imagesUrl,
-  maxQuantity,
+  hero_image,
+  images_url,
+  max_quantity: max_quantity,
   price,
   slug,
   title,
@@ -66,9 +66,9 @@ export const updateProduct = async ({
     .from("product")
     .update({
       category,
-      heroImage,
-      imagesUrl,
-      maxQuantity,
+      hero_image,
+      images_url,
+      max_quantity,
       price,
       title,
     })
