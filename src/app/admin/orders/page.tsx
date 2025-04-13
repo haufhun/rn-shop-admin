@@ -1,15 +1,20 @@
 import { getOrdersWithProducts } from "@/actions/orders";
+import PageComponent from "@/app/admin/orders/page-component";
 
 export default async function Orders() {
-  const orderWithProducts = await getOrdersWithProducts();
+  const ordersWithProducts = await getOrdersWithProducts();
 
-  if (!orderWithProducts) {
+  if (!ordersWithProducts) {
     return (
       <div className="text-center font-bold text-2xl">No orders found</div>
     );
   }
 
-  console.log(orderWithProducts);
+  console.log(ordersWithProducts);
 
-  return <div>Orders Page</div>;
+  return (
+    <div>
+      <PageComponent ordersWithProducts={ordersWithProducts} />
+    </div>
+  );
 }
