@@ -67,7 +67,7 @@ export default function PageComponent({ ordersWithProducts }: Props) {
   };
 
   const handleStatusChange = async (orderId: number, newStatus: string) => {
-    // TODO: UPDATE ORDER STATUS
+    await updateOrderStatus(orderId, newStatus);
   };
 
   return (
