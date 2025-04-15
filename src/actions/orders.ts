@@ -2,6 +2,7 @@
 
 import { createClient } from "@/supabase/server";
 import { revalidatePath } from "next/cache";
+import { sendNotification } from "./notifications";
 
 const supabase = await createClient();
 
@@ -19,14 +20,18 @@ export const getOrdersWithProducts = async () => {
 };
 
 export const updateOrderStatus = async (orderId: number, newStatus: string) => {
-  const { error } = await supabase
+  const { data: order, error } = await supabase
     .from("order")
     .update({ status: newStatus })
-    .eq("id", orderId);
+    .eq("id", orderId)
+    .select("*")
+    .single();
 
   if (error) {
     throw new Error(`Error updating order status: ${error.message}`);
   }
+
+  await sendNotification(order.user, newStatus + " 🚀");
 
   revalidatePath("/admin/orders");
 };
