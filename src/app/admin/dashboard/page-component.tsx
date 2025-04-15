@@ -28,11 +28,26 @@ type MonthlyOrderData = {
   orders: number;
 };
 
-type Props = {
-  monthlyOrders: MonthlyOrderData[];
+type CategoryData = {
+  name: string;
+  products: number;
 };
 
-const PageComponent = ({ monthlyOrders }: Props) => {
+type LatestUser = {
+  id: string;
+  email: string;
+  date: string;
+};
+
+type Props = {
+  monthlyOrders: MonthlyOrderData[];
+  categoryData: CategoryData[];
+  latestUsers: LatestUser[];
+};
+
+const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+
+const PageComponent = ({ monthlyOrders, categoryData, latestUsers }: Props) => {
   return (
     <div className="flex-1 p-8 overflow-auto">
       <h1 className="text-3xl font-bold mb-6">Dashboard Overview</h1>
@@ -58,20 +73,20 @@ const PageComponent = ({ monthlyOrders }: Props) => {
         </Card>
 
         {/* Products Chart */}
-        {/* <Card>
+        <Card>
           <CardHeader>
             <CardTitle>Product Distribution</CardTitle>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width='100%' height={300}>
+            <ResponsiveContainer width="100%" height={300}>
               <PieChart>
                 <Pie
                   data={categoryData}
-                  dataKey='products'
-                  cx='50%'
-                  cy='50%'
+                  dataKey="products"
+                  cx="50%"
+                  cy="50%"
                   outerRadius={80}
-                  fill='#8884d8'
+                  fill="#8884d8"
                   labelLine={false}
                   label={({ name, percent }) =>
                     `${name} ${(percent * 100).toFixed(0)}%`
@@ -88,29 +103,29 @@ const PageComponent = ({ monthlyOrders }: Props) => {
               </PieChart>
             </ResponsiveContainer>
           </CardContent>
-        </Card> */}
+        </Card>
 
         {/* Category To products Chart */}
-        {/* <Card>
+        <Card>
           <CardHeader>
             <CardTitle>Products per Category</CardTitle>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width='100%' height={300}>
+            <ResponsiveContainer width="100%" height={300}>
               <BarChart data={categoryData}>
-                <CartesianGrid strokeDasharray='3 3' />
-                <XAxis dataKey='name' />
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey='products' fill='#82ca9d' />
+                <Bar dataKey="products" fill="#82ca9d" />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
-        </Card> */}
+        </Card>
 
         {/* Latest Users */}
-        {/* <Card>
+        <Card>
           <CardHeader>
             <CardTitle>Latest Users</CardTitle>
           </CardHeader>
@@ -123,7 +138,7 @@ const PageComponent = ({ monthlyOrders }: Props) => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {latestUsers.map(user => (
+                {latestUsers.map((user) => (
                   <TableRow key={user.id}>
                     <TableCell>{user.email}</TableCell>
                     <TableCell>{user.date}</TableCell>
@@ -132,7 +147,7 @@ const PageComponent = ({ monthlyOrders }: Props) => {
               </TableBody>
             </Table>
           </CardContent>
-        </Card> */}
+        </Card>
       </div>
     </div>
   );
