@@ -9,10 +9,10 @@ import {
 } from "@/app/admin/categories/create-category.schema";
 import { createClient } from "@/supabase/server";
 
-const supabase = await createClient();
-
 export const getCategoriesWithProducts =
   async (): Promise<CategoriesWithProductsResponse> => {
+    const supabase = await createClient();
+
     const { data, error } = await supabase
       .from("category")
       .select("*, products:product(*)")
@@ -27,6 +27,7 @@ export const getCategoriesWithProducts =
 
 export const imageUploadHandler = async (formData: FormData) => {
   if (!formData) return;
+  const supabase = await createClient();
 
   const fileEntry = formData.get("file");
 
@@ -63,6 +64,7 @@ export const createCategory = async ({
   name,
   imageUrl,
 }: CreateCategorySchemaServer) => {
+  const supabase = await createClient();
   const slug = slugify(name, { lower: true });
 
   const { data, error } = await supabase.from("category").insert({
@@ -83,6 +85,8 @@ export const updateCategory = async ({
   name,
   slug,
 }: UpdateCategorySchema) => {
+  const supabase = await createClient();
+
   const { data, error } = await supabase
     .from("category")
     .update({
@@ -99,6 +103,8 @@ export const updateCategory = async ({
 };
 
 export const deleteCategory = async (id: number) => {
+  const supabase = await createClient();
+
   const { data, error } = await supabase
     .from("category")
     .delete()
@@ -112,6 +118,8 @@ export const deleteCategory = async (id: number) => {
 };
 
 export const getCategoryData = async () => {
+  const supabase = await createClient();
+
   const { data, error } = await supabase
     .from("category")
     .select("name, products:product(id)");
